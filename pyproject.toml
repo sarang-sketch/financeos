@@ -1,0 +1,166 @@
+# FinanceOS Control Tower — Python runtime.
+#
+# Two runtimes, split on one line (design.md, Architecture): money arithmetic and
+# database writes are TypeScript (package.json); Model interaction and agent
+# reasoning are Python (this file). The Python side owns the Agent Engine, the six
+# Agents, the AI_Gateway, the FinanceOS_Response_Validator, and the Python half of
+# the money wire contract.
+#
+# Every tool this runtime uses — pytest, Hypothesis, ruff, mypy — is configured
+# here rather than in a per-tool dotfile, so the Python stack has one config file
+# the way the TypeScript stack has one package.json.
+#
+# Install the toolchain from a clean clone:
+#   python -m pip install -e ".[dev]"
+
+[build-system]
+requires = ["setuptools>=80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "financeos"
+version = "0.1.0"
+description = "FinanceOS Control Tower — Python runtime (Agent Engine, the six Agents, AI_Gateway, FinanceOS_Response_Validator, money wire contract)"
+requires-python = ">=3.12"
+
+# pydantic: the transport models under financeos/wire/ that mirror the Zod schemas,
+#           with str on the wire and int in memory for every paise field.
+# httpx:    the client for the internal TypeScript endpoints. It is the only way the
+#           Python process reaches data — there is no Postgres driver here by design.
+dependencies = [
+  "httpx==0.28.1",
+  "pydantic==2.13.5",
+]
+
+[project.optional-dependencies]
+# The four tools design.md's Testing Strategy names for the Python runtime.
+dev = [
+  "hypothesis==6.165.10",
+  "mypy==2.3.1",
+  "pytest==9.1.1",
+  "ruff==0.16.5",
+]
+
+[tool.setuptools.packages.find]
+include = ["financeos*"]
+namespaces = false
+
+# ---------------------------------------------------------------------------
+# pytest — the runner (CI stages 4, 7, 8, 9)
+# ---------------------------------------------------------------------------
+# pythonpath keeps `import financeos` working from a clean checkout without an
+# install step, so CI stage 4 needs no editable install to be reproducible.
+[tool.pytest.ini_options]
+minversion = "9.0"
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers --strict-config"
+filterwarnings = ["error"]
+xfail_strict = true
+
+# ---------------------------------------------------------------------------
+# ruff — lint, the Python half of CI stage 2
+# ---------------------------------------------------------------------------
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = [".next", "node_modules", "src", "supabase", "test"]
+
+[tool.ruff.lint]
+select = [
+  "A",      # builtin shadowing
+  "ANN",    # every signature annotated — mypy has nothing to check otherwise
+  "ARG",    # unused arguments
+  "ASYNC",  # async correctness
+  "B",      # bugbears
+  "C4",     # comprehensions
+  "DTZ",    # naive datetimes — every FinanceOS timestamp is tz-aware
+  "E",      # pycodestyle errors
+  "EM",     # exception message hygiene
+  "F",      # pyflakes
+  "FBT",    # boolean trap
+  "FLY",    # static join
+  "FURB",   # modernisation
+  "G",      # logging format
+  "I",      # import sorting
+  "ICN",    # import conventions
+  "INP",    # implicit namespace packages
+  "ISC",    # implicit string concat
+  "LOG",    # logging correctness
+  "N",      # naming
+  "PERF",   # performance antipatterns
+  "PIE",    # misc lints
+  "PL",     # pylint subset
+  "PT",     # pytest style
+  "PTH",    # pathlib over os.path
+  "Q",      # quote consistency
+  "RET",    # return simplification
+  "RSE",    # raise style
+  "RUF",    # ruff-specific, includes RUF100 unused-noqa
+  "S",      # bandit — credentials reach this runtime
+  "SIM",    # simplification
+  "SLF",    # private member access
+  "T20",    # no print in library or test code
+  "TC",     # type-checking-only imports
+  "TID",    # tidy imports
+  "TRY",    # exception antipatterns
+  "UP",     # pyupgrade
+  "W",      # pycodestyle warnings
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests assert, and they compare against literal paise boundaries on purpose.
+"tests/**" = ["PLR2004", "S101"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.format]
+docstring-code-format = true
+
+# ---------------------------------------------------------------------------
+# mypy — type checking, the Python half of CI stage 2
+# ---------------------------------------------------------------------------
+# On the TypeScript side `type Paise = bigint` lets the compiler reject a number
+# reaching a monetary path. Python `int` is already exact, so mypy carries less
+# weight for money here — but it is what catches the two annotation mistakes that
+# would silently reintroduce float money or a JSON-number wire field:
+#
+#   1. a paise field annotated `float` — rejected because every paise value in
+#      this runtime is `int`, and `float` is not assignable to `int` (the numeric
+#      tower promotes int to float, never the reverse), so the annotation fails
+#      the moment the value reaches to_wire / assert_in_range;
+#   2. a `_paise` field annotated `int` in a transport model — rejected because
+#      `PaiseWire = str` on the wire, so an `int`-typed field fails at from_wire,
+#      and the pydantic plugin's init_typed makes the model constructor reject it
+#      as well rather than coercing.
+#
+# tests/test_paise_typing_discipline.py asserts both rejections against this exact
+# config, so a future loosening of these settings fails CI stage 4 rather than
+# quietly allowing float money back in.
+[tool.mypy]
+files = ["financeos", "tests"]
+strict = true
+plugins = ["pydantic.mypy"]
+disallow_any_unimported = true
+warn_unreachable = true
+extra_checks = true
+enable_error_code = [
+  "deprecated",
+  "explicit-override",
+  "ignore-without-code",
+  "mutable-override",
+  "narrowed-type-not-subtype",
+  "possibly-undefined",
+  "redundant-expr",
+  "redundant-self",
+  "truthy-bool",
+  "truthy-iterable",
+  "unused-awaitable",
+]
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true

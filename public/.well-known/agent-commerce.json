@@ -1,0 +1,42 @@
+﻿{
+  "@context": "https://schema.org",
+  "@type": "AgenticCommerceEndpoint",
+  "protocol": "ACP/1.2",
+  "supportedStandards": [
+    "NPCI_UAP",
+    "ACP_v1.2",
+    "HTTP_x402",
+    "AP2_GOOGLE",
+    "MCP_2024_11_05"
+  ],
+  "merchant": {
+    "name": "EdTech India Ltd (FinanceOS)",
+    "merchantId": "merch_edtech_india_001",
+    "currency": "INR",
+    "gateway": "Razorpay Test-Mode"
+  },
+  "endpoints": {
+    "catalog": "/api/agentic/catalog",
+    "checkout": "/api/agentic/checkout",
+    "nudge": "/api/agentic/nudge",
+    "conversationalCheckout": "/api/agentic/conversational"
+  },
+  "autonomousPolicy": {
+    "maxTransactionLimitInr": 50000,
+    "requiresPreAuthSignature": true,
+    "instantSettlementSupported": true,
+    "gracefulFailureMitigationEnabled": true
+  },
+  "mcpTools": [
+    {
+      "name": "query_merchant_catalog",
+      "description": "Fetch machine-readable product catalog with stock, pricing, and bundle affinities",
+      "endpoint": "/api/agentic/catalog"
+    },
+    {
+      "name": "request_agent_checkout",
+      "description": "Submit autonomous purchase request with cryptographic x402 / UAP authorization voucher",
+      "endpoint": "/api/agentic/checkout"
+    }
+  ]
+}

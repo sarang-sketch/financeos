@@ -1,0 +1,366 @@
+{
+  "pbtResults": {
+    "23.6 Write property test for authorization completeness over a TypeScript pipeline harness": {
+      "status": "passed",
+      "lastRunTimestamp": 1787982383149
+    },
+    "26.3 Write property test for tenant isolation": {
+      "status": "passed",
+      "lastRunTimestamp": 1787982368576
+    },
+    "25.3 Write property test for audit chain integrity": {
+      "status": "failed",
+      "failingExample": "Vitest result: Tests 5 passed | 1 expected fail (6). The required database-backed test \"reproduces every stored Chain_Value and reports the Audit_Log intact\" is still marked expected-failure, so P9 is not a clean pass.",
+      "lastRunTimestamp": 1787982412378
+    },
+    "24.2 Write property test for reversal preservation": {
+      "status": "passed",
+      "lastRunTimestamp": 1787982507333
+    },
+    "29.4 Write property test for money wire round-trip": {
+      "status": "passed",
+      "lastRunTimestamp": 1788009316079
+    }
+  },
+  "executionHistory": {
+    "16.1 Write the ordered demo path test": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979785833
+      },
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979795235
+      },
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787980082529
+      }
+    ],
+    "17. **PROPERTY GATE — Slice 1. Blocks Slice 2.**": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979785914
+      }
+    ],
+    "23.6 Write property test for authorization completeness over a TypeScript pipeline harness": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979785966
+      }
+    ],
+    "26.3 Write property test for tenant isolation": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786026
+      }
+    ],
+    "28. **PROPERTY GATE — Slice 3. Blocks Slice 4.**": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786078
+      }
+    ],
+    "29.1 Initialize the Python project and test stack": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786132
+      }
+    ],
+    "29.2 Implement the Python money wire helpers": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786182
+      }
+    ],
+    "29.3 Implement the transport schemas on both sides": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786252
+      }
+    ],
+    "29.4 Write property test for money wire round-trip": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786299
+      }
+    ],
+    "29.5 Implement the internal tool endpoint": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786348
+      }
+    ],
+    "29.6 Implement the internal metering endpoints": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786388
+      }
+    ],
+    "29.7 Write the transport contract test suite": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786447
+      }
+    ],
+    "30.1 Implement the stage runner": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786485
+      }
+    ],
+    "30.2 Write property test for authorization completeness against the Python engine": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786556
+      }
+    ],
+    "31.1 Implement the pluggable Model_Provider adapter layer": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786624
+      }
+    ],
+    "31.2 Wire the per-Task_Class provider chains": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786669
+      }
+    ],
+    "31.3 Implement routing, retry and failover": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786719
+      }
+    ],
+    "31.4 Implement the `model_requests` storage and server-side cost computation (TypeScript)": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786780
+      }
+    ],
+    "31.5 Implement gateway-side measurement and metering (Python)": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786818
+      }
+    ],
+    "31.6 Implement the monthly cost cap check (Python)": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786878
+      }
+    ],
+    "31.7 Implement payload bounds and credential stripping": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786928
+      }
+    ],
+    "31.8 Implement the usage breakdown endpoint (design.md marks this thin-sliceable)": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979786995
+      }
+    ],
+    "32.1 Implement the validator": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787044
+      }
+    ],
+    "32.2 Write the validator adversarial test suite": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787097
+      }
+    ],
+    "33.1 Implement GSTIN structural validation": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787136
+      }
+    ],
+    "33.3 Implement the compliance Exception categories": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787186
+      }
+    ],
+    "33.4 Implement the ITC discrepancy computation and tool": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787242
+      }
+    ],
+    "33.5 Implement `get_compliance_findings`": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787294
+      }
+    ],
+    "33.6 Implement TDS_Review_Items (design.md marks this thin-sliceable)": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787343
+      }
+    ],
+    "33.7 Implement the compliance views with the disclaimer": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787400
+      }
+    ],
+    "34.1 Migration: cash forecast schema group": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787512
+      }
+    ],
+    "34.2 Implement the day-by-day projection": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787562
+      }
+    ],
+    "34.3 Implement affordability, Headroom and the risk bands": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787604
+      }
+    ],
+    "34.4 Implement Runway and wire the Control_Tower Runway cell": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787651
+      }
+    ],
+    "34.5 Implement ranked actions and Simulation (design.md marks both thin-sliceable)": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787711
+      }
+    ],
+    "34.6 Implement `get_cash_forecast` and `simulate_cash_action`": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787762
+      }
+    ],
+    "35.1 Implement the failure profile and the 70/30 blend": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787817
+      }
+    ],
+    "35.3 Implement Proposal creation and suppression": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787881
+      }
+    ],
+    "35.4 Implement `get_failed_payment_recovery_profile`": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979787961
+      }
+    ],
+    "35.5 Implement the recoverable aggregate (design.md marks this thin-sliceable)": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979788011
+      }
+    ],
+    "35.6 Implement `initiate_payment_retry`": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979788067
+      }
+    ],
+    "36.1 Implement period comparison": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979788118
+      }
+    ],
+    "36.2 Implement `get_period_comparison`": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979788169
+      }
+    ],
+    "36.3 Implement unusual transactions and top contributors (design.md marks both thin-sliceable)": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979788221
+      }
+    ],
+    "37.1 Add steps 6 and 7 to the demo path test": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979788283
+      }
+    ],
+    "38. **PROPERTY GATE — Slice 4. Final gate.**": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787979788351
+      }
+    ],
+    "16. End-to-end demo path, steps 1 through 5 (no Model dependency)": [
+      {
+        "executionId": "49c5659f-c74d-4f31-aa5a-d2bc81aa9ccd",
+        "chatSessionId": "sess_aea065f8-701d-41b3-bd02-103b9bfa5a46",
+        "timestamp": 1787980082608
+      }
+    ]
+  }
+}

@@ -1,0 +1,2 @@
+# PEP 561 marker: financeos ships inline type annotations, so mypy checks
+# consumers of this package against them rather than falling back to Any.

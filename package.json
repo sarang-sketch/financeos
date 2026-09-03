@@ -1,0 +1,47 @@
+{
+  "name": "accmount",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FinanceOS Control Tower — TypeScript runtime (dashboard, API, ingestion, Semantic_Ledger, Calculation_Service, Financial_Tool_Layer, Policy_Engine, Action/Audit/Configuration/Authorization services)",
+  "type": "module",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test:unit": "vitest run --project unit",
+    "test:db": "vitest run --project db",
+    "test:contract": "vitest run --project contract",
+    "test:transport": "vitest run --project transport",
+    "test:property": "vitest run --project property",
+    "test:e2e": "vitest run --project e2e",
+    "test:integration": "node --env-file-if-exists=.env.local ./node_modules/vitest/vitest.mjs run --project integration",
+    "py:typecheck-lint": "node scripts/python.mjs -m ruff check financeos tests && node scripts/python.mjs -m mypy",
+    "py:test:unit": "node scripts/python.mjs -m pytest --ignore=tests/property --ignore=tests/transport",
+    "py:test:property": "node scripts/python.mjs -m pytest tests/property",
+    "seed:razorpay": "node --env-file-if-exists=.env.local --import ./scripts/register-ts-path-alias.mjs scripts/seed-razorpay-testmode.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.112.4",
+    "next": "16.3.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.13.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
+    "eslint": "10.9.1",
+    "eslint-config-next": "16.3.3",
+    "fast-check": "4.9.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.68.0",
+    "vitest": "4.1.11"
+  }
+}

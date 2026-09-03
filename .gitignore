@@ -1,0 +1,52 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# Next.js
+.next/
+out/
+# next-env.d.ts is committed so `npm run typecheck` (CI stage 1) is reproducible
+# from a clean clone without a prior `next build`.
+
+# build / cache
+dist/
+build/
+*.tsbuildinfo
+.eslintcache
+.turbo/
+
+# test output
+coverage/
+.vitest/
+test-results/
+playwright-report/
+
+# Python runtime
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+
+# environment — never commit a real credential value
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Supabase local
+supabase/.branches/
+supabase/.temp/
+
+# editors and OS
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*

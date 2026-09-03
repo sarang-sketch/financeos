@@ -1,0 +1,322 @@
+{
+  "$comment": [
+    "The shared money wire vectors for Property 15 (task 29.4). Requirements 15.1, 15.8.",
+    "",
+    "ONE committed file, read by BOTH property suites:",
+    "  test/property/money-wire.property.test.ts   (fast-check, TypeScript)",
+    "  tests/property/test_money_wire.py           (Hypothesis, Python)",
+    "",
+    "Not two copies. design.md's Generators section is explicit about why: 'if each side",
+    "generated independently, a boundary value that only one side happened to draw would",
+    "produce a green suite on the other'. A vector added here is asserted twice; a vector",
+    "removed from here fails both suites' coverage guards rather than quietly shrinking",
+    "them.",
+    "",
+    "Every paise value is a STRING here, including inside `payloads`. A JSON number in",
+    "this file would be parsed to an IEEE-754 double by both readers, and the vectors",
+    "above 2^53 — the only ones that can catch a JSON-number implementation — would be",
+    "corrupted by the fixture itself before either suite saw them.",
+    "",
+    "`malformed[].json` holds raw JSON TEXT rather than a parsed value, for the same",
+    "reason: `a_json_number` and `a_json_float` have to reach each schema as the number",
+    "the sender wrote, so each side parses the text with its own JSON parser and injects",
+    "the result."
+  ],
+  "version": 1,
+  "property": "P15",
+  "validates": ["15.1", "15.8"],
+
+  "seeds": {
+    "$comment": "Committed, so any counterexample reproduces from the tests alone.",
+    "fast_check_seed": 20260404,
+    "fast_check_num_runs": 1000,
+    "hypothesis_max_examples": 1000,
+    "hypothesis_seed": 20260404
+  },
+
+  "range": {
+    "min": "-99999999999999",
+    "max": "99999999999999"
+  },
+
+  "boundary_constants": [
+    "0",
+    "1",
+    "-1",
+    "99",
+    "100",
+    "-99999999999999",
+    "99999999999999"
+  ],
+
+  "in_range": [
+    { "id": "zero", "paise": "0", "wire": "0" },
+    { "id": "one_paisa", "paise": "1", "wire": "1" },
+    { "id": "minus_one_paisa", "paise": "-1", "wire": "-1" },
+    { "id": "ninety_nine_paise", "paise": "99", "wire": "99" },
+    { "id": "one_rupee", "paise": "100", "wire": "100" },
+    { "id": "range_floor", "paise": "-99999999999999", "wire": "-99999999999999" },
+    { "id": "range_ceiling", "paise": "99999999999999", "wire": "99999999999999" },
+    { "id": "one_inside_the_floor", "paise": "-99999999999998", "wire": "-99999999999998" },
+    { "id": "one_inside_the_ceiling", "paise": "99999999999998", "wire": "99999999999998" },
+    { "id": "set_9281_net", "paise": "84260000", "wire": "84260000" },
+    { "id": "set_9281_net_negated", "paise": "-84260000", "wire": "-84260000" }
+  ],
+
+  "out_of_range": [
+    { "id": "one_below_the_floor", "paise": "-100000000000000" },
+    { "id": "one_above_the_ceiling", "paise": "100000000000000" },
+    { "id": "two_pow_53", "paise": "9007199254740992" },
+    { "id": "two_pow_53_negated", "paise": "-9007199254740992" },
+    { "id": "unrounded_rate_product", "paise": "29999999999999700000" },
+    { "id": "unrounded_rate_product_negated", "paise": "-29999999999999700000" }
+  ],
+
+  "above_two_pow_53": [
+    {
+      "id": "two_pow_53",
+      "paise": "9007199254740992",
+      "wire": "9007199254740992",
+      "note": "The generator floor. Exactly representable as a double, so it passes on its own."
+    },
+    {
+      "id": "two_pow_53_plus_one",
+      "paise": "9007199254740993",
+      "wire": "9007199254740993",
+      "note": "The first integer a double cannot hold: JSON.parse yields 9007199254740992."
+    },
+    {
+      "id": "unrounded_rate_product",
+      "paise": "29999999999999700000",
+      "wire": "29999999999999700000",
+      "note": "PAISE_MAX * 300000 bp — the magnitude an unrounded applyRate product reaches."
+    },
+    {
+      "id": "unrounded_rate_product_negated",
+      "paise": "-29999999999999700000",
+      "wire": "-29999999999999700000"
+    },
+    {
+      "id": "ten_pow_20",
+      "paise": "100000000000000000000",
+      "wire": "100000000000000000000",
+      "note": "The generator ceiling on both sides."
+    },
+    {
+      "id": "ten_pow_20_negated",
+      "paise": "-100000000000000000000",
+      "wire": "-100000000000000000000"
+    }
+  ],
+
+  "malformed": [
+    {
+      "id": "a_json_number",
+      "json": "84260000",
+      "why": "The mistake the whole contract exists to prevent. Coercion would launder it.",
+      "accepted_when_nullable": false
+    },
+    {
+      "id": "a_json_float",
+      "json": "842600.5",
+      "why": "Money is an integer number of paise; a fraction of a paisa is not money.",
+      "accepted_when_nullable": false
+    },
+    {
+      "id": "a_numeric_string_with_a_decimal_point",
+      "json": "\"842600.00\"",
+      "why": "Rupees where paise were expected, off by a factor of 100 and well formed.",
+      "accepted_when_nullable": false
+    },
+    {
+      "id": "a_numeric_string_with_leading_whitespace",
+      "json": "\" 84260000\"",
+      "why": "A trimming parser would accept it; the two runtimes must not disagree on trimming.",
+      "accepted_when_nullable": false
+    },
+    {
+      "id": "a_numeric_string_with_a_leading_plus_sign",
+      "json": "\"+84260000\"",
+      "why": "Number('+8') and int('+8') both accept it. The wire regex does not.",
+      "accepted_when_nullable": false
+    },
+    {
+      "id": "a_non_numeric_string",
+      "json": "\"eighty-four lakh\"",
+      "why": "The shape is right and the content is prose.",
+      "accepted_when_nullable": false
+    },
+    {
+      "id": "null",
+      "json": "null",
+      "why": "A stated absence. Legitimate only where the field is declared nullable.",
+      "accepted_when_nullable": true
+    },
+    {
+      "id": "a_nested_object",
+      "json": "{\"value\": \"84260000\"}",
+      "why": "A figure wrapped in an envelope. Rejected, not unwrapped.",
+      "accepted_when_nullable": false
+    }
+  ],
+
+  "payloads": [
+    {
+      "id": "post_reconciliation_adjustment_input",
+      "typescript_schema": "postReconciliationAdjustmentInputWire",
+      "python_model": "PostReconciliationAdjustmentInputWire",
+      "boundary": "tool",
+      "body": {
+        "entry_date": "2026-02-12",
+        "entries": [
+          {
+            "account_code": "bank_settlement_clearing",
+            "side": "debit",
+            "amount_paise": "84260000"
+          },
+          {
+            "account_code": "gateway_receivable",
+            "side": "credit",
+            "amount_paise": "84260000"
+          }
+        ],
+        "source_refs": [{ "type": "settlement", "id": "setl_9281" }]
+      },
+      "paise_paths": [
+        { "path": "entries[0].amount_paise", "field": "amount_paise", "nullable": false }
+      ]
+    },
+    {
+      "id": "evidence_chain",
+      "typescript_schema": "evidenceChainWire",
+      "python_model": "EvidenceChainWire",
+      "boundary": "tool",
+      "body": {
+        "evidence_chain_id": "6f9619ff-8b86-4d11-b42d-00c04fc964ff",
+        "figure_paise": "84260000",
+        "sources": [{ "type": "settlement", "id": "setl_9281" }],
+        "source_count": 1,
+        "steps": [
+          {
+            "index": 1,
+            "operation": "sum",
+            "operands": [{ "kind": "literal", "value": "84260000" }],
+            "result_paise": "84260000"
+          },
+          {
+            "index": 2,
+            "operation": "compare",
+            "operands": [{ "kind": "step", "index": 1 }],
+            "result_paise": null,
+            "note": "A compare yields a boolean, so it carries no monetary result."
+          }
+        ],
+        "as_of": "2026-02-12T09:30:00Z",
+        "produced_by": "reconcile_settlement"
+      },
+      "paise_paths": [
+        { "path": "figure_paise", "field": "figure_paise", "nullable": false },
+        { "path": "steps[0].result_paise", "field": "result_paise", "nullable": true }
+      ]
+    },
+    {
+      "id": "post_reconciliation_adjustment_result",
+      "typescript_schema": "postReconciliationAdjustmentResultWire",
+      "python_model": "PostReconciliationAdjustmentResultWire",
+      "boundary": "tool",
+      "body": {
+        "ok": true,
+        "value": {
+          "set_id": "1f2e3d4c-5b6a-4978-8695-a4b3c2d1e0f9",
+          "total_debit_paise": "84260000",
+          "total_credit_paise": "84260000",
+          "total_debit_evidence_chain_id": "6f9619ff-8b86-4d11-b42d-00c04fc964ff",
+          "total_debit_evidence_as_of": "2026-02-12T09:30:00Z",
+          "total_credit_evidence_chain_id": "2b7d1c3e-4f5a-4c6b-9d8e-7a6b5c4d3e2f",
+          "total_credit_evidence_as_of": "2026-02-12T09:30:00Z"
+        },
+        "evidence": {
+          "evidence_chain_id": "6f9619ff-8b86-4d11-b42d-00c04fc964ff",
+          "figure_paise": "84260000",
+          "sources": [{ "type": "ledger_entry_set", "id": "1f2e3d4c-5b6a-4978-8695-a4b3c2d1e0f9" }],
+          "source_count": 1,
+          "steps": [
+            {
+              "index": 1,
+              "operation": "sum",
+              "operands": [{ "kind": "literal", "value": "84260000" }],
+              "result_paise": "84260000"
+            }
+          ],
+          "as_of": "2026-02-12T09:30:00Z",
+          "produced_by": "post_reconciliation_adjustment"
+        }
+      },
+      "paise_paths": [
+        { "path": "value.total_debit_paise", "field": "total_debit_paise", "nullable": false },
+        { "path": "value.total_credit_paise", "field": "total_credit_paise", "nullable": false },
+        { "path": "evidence.figure_paise", "field": "figure_paise", "nullable": false },
+        { "path": "evidence.steps[0].result_paise", "field": "result_paise", "nullable": true }
+      ]
+    },
+    {
+      "id": "response_validator_request",
+      "typescript_schema": "responseValidatorRequestWire",
+      "python_model": "ResponseValidatorRequestWire",
+      "boundary": "validator",
+      "body": {
+        "narrative": "Settlement setl_9281 netted 8,42,600.00 after fees and GST.",
+        "allowed_values_paise": ["84260000", "0"],
+        "evidence_chain_ids": ["6f9619ff-8b86-4d11-b42d-00c04fc964ff"]
+      },
+      "paise_paths": [
+        {
+          "path": "allowed_values_paise[0]",
+          "field": "allowed_values_paise",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "id": "validation_result_ungrounded_figure",
+      "typescript_schema": "validationResultWire",
+      "python_model": "ValidationResultWire",
+      "boundary": "validator",
+      "body": {
+        "ok": false,
+        "kind": "ungrounded_figure",
+        "figure_text": "8,42,600.01",
+        "parsed_paise": "84260001"
+      },
+      "paise_paths": [
+        { "path": "parsed_paise", "field": "parsed_paise", "nullable": true }
+      ]
+    },
+    {
+      "id": "model_cost_cap_response",
+      "typescript_schema": "modelCostCapResponseWire",
+      "python_model": "ModelCostCapResponseWire",
+      "boundary": "metering",
+      "body": {
+        "cap_paise": "50000000",
+        "month_to_date_paise": "41237500",
+        "exceeded": false
+      },
+      "paise_paths": [
+        { "path": "cap_paise", "field": "cap_paise", "nullable": false },
+        { "path": "month_to_date_paise", "field": "month_to_date_paise", "nullable": false }
+      ]
+    },
+    {
+      "id": "model_request_response",
+      "typescript_schema": "modelRequestResponseWire",
+      "python_model": "ModelRequestResponseWire",
+      "boundary": "metering",
+      "body": {
+        "model_request_id": "3c4d5e6f-7a8b-4c9d-8e1f-2a3b4c5d6e7f",
+        "cost_paise": "1275"
+      },
+      "paise_paths": [{ "path": "cost_paise", "field": "cost_paise", "nullable": false }]
+    }
+  ]
+}
