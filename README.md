@@ -14,6 +14,30 @@
 
 ---
 
+> ### ⚡ Quick Start — Run in 60 Seconds
+>
+> **Prerequisites:** [Node.js ≥ 20](https://nodejs.org/) and [Git](https://git-scm.com/)
+>
+> ```bash
+> git clone https://github.com/sarang-sketch/financeos.git
+> cd financeos
+> cp .env.example .env.local          # Windows: copy .env.example .env.local
+> npm install
+> npm run dev
+> ```
+>
+> Open **http://localhost:3000** — the full dashboard runs with seed data, no API keys needed!
+>
+> **Optional:** Enter your API keys in **⚙️ Settings → 🔑 API Keys & Credentials** for live AI + Razorpay features.
+>
+> | Key | Where to Get | Required For |
+> |---|---|---|
+> | `GEMINI_API_KEY` | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) | AI Buyer Agent, Ask Assistant |
+> | `RAZORPAY_KEY_ID` + `SECRET` | [Razorpay Dashboard → Test Keys](https://dashboard.razorpay.com/app/keys) | Live payment orders |
+> | `SUPABASE_URL` + keys | [supabase.com](https://supabase.com) (free tier) | Persistent database (optional) |
+
+---
+
 ## 📌 Table of Contents
 
 - [Problem Statement](#-problem-statement)
