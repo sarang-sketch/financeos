@@ -38,44 +38,106 @@
 
 ## 🎯 Problem Statement
 
-> **Track 01 — AI Growth & Agentic Commerce (Razorpay Hackathon)**
+> ### Track 01 — AI Growth & Agentic Commerce
 >
-> *"Build an agent that grows revenue for a merchant on Razorpay test-mode APIs, or that makes a merchant transactable by an AI buyer end to end."*
+> *"Grow the merchant's revenue, and make them sellable to AI buyers.*
+>
+> *Build an agent that grows revenue for a merchant on Razorpay test-mode APIs, or that makes a merchant transactable by an AI buyer end to end."*
+>
+> **Why now:** NPCI's UAP and the global protocol race (ACP, AP2, x402) make agent-to-agent commerce the open problem of the year, and Razorpay's in-app pilots are already live.
 
-### The Real-World Problems We're Solving
+### Breaking This Down — The Two Core Challenges
 
-1. **₹14.65 Lakh at risk daily** — Failed payments, cart abandonment, and gateway outages silently drain revenue from Indian e-commerce merchants.
+#### Challenge 1: "Grow the merchant's revenue"
 
-2. **68% cart abandonment rate** — Customers drop off at checkout and merchants have no intelligent recovery system.
+Today, Indian merchants lose revenue silently through multiple channels:
 
-3. **No AI-native commerce** — Merchants cannot be discovered or transacted with by autonomous AI buyers. The protocols (UAP, ACP, x402, AP2) exist but no one has built the end-to-end bridge.
+| Revenue Leak | Scale | Why It Happens |
+|---|---|---|
+| **Failed Payments** | ₹14.65 Lakh/day at risk | Gateway timeouts (HDFC +340% latency spikes), insufficient funds, 3DS failures |
+| **Cart Abandonment** | 68% drop-off rate | No intelligent recovery — abandoned carts just sit there |
+| **Zero Upselling** | 0% attach rate (manual) | Human operators can't calculate optimal upsell bundles per customer in real time |
+| **Gateway Outages** | Undetected for hours | No automated rerouting when a payment gateway starts failing |
+| **No Campaign Intelligence** | Guesswork marketing | No Monte Carlo simulation to project campaign ROI before spending |
 
-4. **Payment failures are opaque** — When HDFC spikes latency by 340%, merchants see revenue dip but have no automated rerouting or recovery.
+Merchants need an **autonomous AI agent** that monitors, recovers, upsells, and optimizes revenue 24/7 — without human intervention.
 
-5. **Manual operations don't scale** — Upselling, cross-selling, nudging abandoned carts, and verifying payments all require human operators who can't work 24/7.
+#### Challenge 2: "Make them sellable to AI buyers"
+
+The world is moving toward **agent-to-agent commerce** — where AI agents buy products on behalf of users. But today:
+
+- ❌ Merchants have **no agent-readable catalog** — their product data lives in HTML pages that AI agents can't parse
+- ❌ There's **no protocol bridge** — UAP, ACP, x402, AP2 protocols exist but no merchant has implemented them
+- ❌ There's **no policy enforcement** — if an AI buyer negotiates a 90% discount, who stops it? There's no **Money Firewall**
+- ❌ There's **no audit trail** — when machines transact with machines, every money action must be explainable, bounded, and gated
+- ❌ There's **no conversational checkout** — AI buyers can't say *"Find me a birthday toy under ₹5,000"* and complete a purchase
 
 ---
 
-## 💡 Our Solution
+## 💡 How We Solve It — FinanceOS
 
-**FinanceOS** is a full-stack autonomous commerce platform where AI agents handle the entire revenue lifecycle:
+**FinanceOS** is a full-stack autonomous commerce platform that solves **both challenges** with a system of cooperating AI agents:
+
+### Solution to Challenge 1: "Grow Revenue" 📈
+
+| Revenue Agent | What It Does | Result |
+|---|---|---|
+| **Revenue Recovery Agent** | Detects failed payments, auto-retries via alternate gateways, sends WhatsApp/Email/Call nudges for abandoned carts | **₹33.5 Lakh recovered** |
+| **Upsell & Cross-Sell Agent** | Deterministic scoring: `intentMatch × attachRate × marginFactor × inventoryFactor` | **78% battery attach rate** on RC car purchases |
+| **Campaign Orchestrator** | Monte Carlo simulation to project campaign ROI before execution | **2.01× AI uplift** over manual operations |
+| **Weather Radar** | Detects gateway health (HDFC latency spikes), auto-reroutes payments | **Prevents revenue loss** during outages |
+| **Abandoned Cart Recovery** | Multi-channel cascade: WhatsApp → Email → Call → UPI QR push | **Real links** — clicking WhatsApp actually opens wa.me |
+
+### Solution to Challenge 2: "Sellable to AI Buyers" 🤖
+
+| Component | What It Does | Hackathon Requirement |
+|---|---|---|
+| **Agent-Readable Catalog** | `/api/agentic/catalog` serves products in schema.org format with UAP/ACP/x402/AP2 protocol headers | ✅ Agent-readable catalog |
+| **AI Buyer Agent** (Gemini 3.6 Flash) | Natural language: *"Find birthday toy under ₹5,000"* → structured intent extraction → product scoring → selection | ✅ Conversational in-app checkout |
+| **Merchant Agent** | Receives buyer intent, generates personalized offer with optimal upsell bundle | ✅ Upsell & cross-sell agent |
+| **Money Firewall** | Every transaction gated: max discount, margin floor, transaction ceiling. Returns `reason`, `policySnapshot`, `governanceLevel` | ✅ Every money action bounded & gated |
+| **Transaction Engine** | Real Razorpay test-mode order → HMAC signature verification → state machine (CREATED → PAID → CONFIRMED) | ✅ Razorpay test-mode APIs |
+| **SHA-256 Audit Trail** | Hash-chained audit events with RFC-8785 serialization. Every decision explainable | ✅ Show the audit trail |
+| **Failure Recovery** | HDFC rerouting, verification timeout handling, idempotency protection, retry with exponential backoff | ✅ One failure handled gracefully |
+
+### The End-to-End Flow
 
 ```
-Customer Intent → AI Buyer Agent → Product Discovery → Merchant Agent (Offer + Upsell)
-       → Money Firewall (Policy Gate) → Razorpay Payment → SHA-256 Audit Trail
-       → Revenue Recovery → Dashboard Analytics → Campaign Orchestration
+👤 User says: "Find me a birthday gift toy for a 10-year-old under ₹5,000"
+                                    ↓
+🤖 AI Buyer Agent (Gemini 3.6 Flash) extracts intent:
+   {category: "gift/toy", budget: ₹5,000, occasion: "birthday", age: 10}
+                                    ↓
+📦 Product Scoring: ranks catalog by intentMatch × budgetFit × featureOverlap
+   → Selected: "1:10 RC Monster Truck" (₹3,999)
+                                    ↓
+🏪 Merchant Agent generates offer:
+   Base: ₹3,999 + Upsell: LiPo Battery (₹800, 78% attach rate) = ₹4,799
+                                    ↓
+🛡️ Money Firewall validates:
+   ✅ Discount ≤ 15% | ✅ Margin ≥ 10% | ✅ Amount ≤ ₹50,000 ceiling
+   → APPROVED (governanceLevel: "STANDARD")
+                                    ↓
+💰 Razorpay Test-Mode: Creates real order → order_TXeKh5DUCf1WTw
+   HMAC-SHA256 signature verification
+                                    ↓
+📋 SHA-256 Audit: Hash-chained event → "52670148ab02127d"
+   {actor: "AI_BUYER", action: "TRANSACTION_INITIATED", result: "APPROVED"}
+                                    ↓
+📊 Dashboard: Revenue updates in 3 seconds (₹4,799 added to live KPIs)
 ```
 
 ### What Makes This Different
 
-| Traditional Commerce | FinanceOS |
+| Traditional Commerce | FinanceOS (Our Solution) |
 |---|---|
-| Human browsing + manual checkout | AI Buyer agent with natural language: *"Find me a birthday toy under ₹5,000"* |
-| Static product pages | Agent-readable catalog with schema.org + protocol support |
-| No upselling intelligence | Deterministic upsell engine: `intentMatch × attachRate × marginFactor` |
-| Payment failures = lost revenue | Auto-recovery: gateway rerouting, WhatsApp nudges, email/call cascade |
-| Manual audit trails | SHA-256 hash-chained audit with RFC-8785 serialization |
-| No spending controls | Money Firewall: max discount, margin floor, transaction ceiling |
+| Human browsing + manual checkout | AI Buyer agent: *"Find me a birthday toy"* → full purchase in one click |
+| Static HTML product pages | Agent-readable catalog with schema.org + UAP/ACP/x402/AP2 protocol support |
+| No upselling intelligence | Deterministic upsell engine with per-product attach rates |
+| Payment failures = lost revenue | Auto-recovery: gateway rerouting + WhatsApp/Email/Call nudge cascade |
+| Manual audit trails (or none) | SHA-256 hash-chained audit with RFC-8785 serialization |
+| No spending controls | Money Firewall: every action explainable, bounded, and gated |
+| Dashboard shows static reports | Real-time dashboard — AI Buyer transactions reflected within 3 seconds |
 
 ---
 
